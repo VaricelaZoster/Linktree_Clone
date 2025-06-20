@@ -9,7 +9,7 @@ const Generate = () => {
   async function setLocalStorage() {
     const value = inputRef.current.value
     await localStorage.setItem('username', value)
-    router.push('/generateURL')
+    router.push('/selectPlatforms')
   }
 
   return (

@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar'
 
 export default function NavbarWrapper() {
   const pathname = usePathname();
-  const hideNavbar = pathname.startsWith('/generate');
+  const hideNavbar = pathname.startsWith('/generate') || pathname.startsWith('/selectPlatforms') || pathname.startsWith('/selectURL');
 
   if (hideNavbar) return null;
 
