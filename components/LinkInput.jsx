@@ -1,18 +1,25 @@
 import React from 'react'
-import { MdInsertLink, MDInsertLink } from 'react-icons/md'
+import { MdInsertLink } from 'react-icons/md'
 import { Tooltip } from '@mui/material'
 
-const LinkInput = () => {
+const LinkInput = ({ url, label, onUrlChange, onLabelChange }) => {
   return (
-    <div className='flex h-12 gap-4'>
-      <Tooltip disableInteractive placement='top' title={
-        <React.Fragment>
-          <div className='text-[0.8rem]'>Insert URL Here</div>
-        </React.Fragment>
-      }>
-        <div className='border-gray-400 rounded-md border-2 flex w-12 text-xl text-gray-500 justify-center items-center bg-[rgb(246,247,245)] '><MdInsertLink/></div>
-      </Tooltip>
-      <input placeholder='Enter display text here' className='bg-[rgb(246,247,245)] px-2 border-2 border-gray-400 rounded-md ' type='url'></input>
+    <div className='flex gap-4 items-center'>
+      
+      <input
+        value={label}
+        onChange={(e) => onLabelChange(e.target.value)}
+        placeholder='Enter display text'
+        className='bg-[rgb(246,247,245)] px-2 py-1 border-2 border-gray-400 rounded-md h-12 focus:outline-2 outline-black focus:border-transparent focus:border-b-transparent focus:border-l-transparent focus:border-r-transparent'
+        type='text'
+      />
+      <input
+        value={url}
+        onChange={(e) => onUrlChange(e.target.value)}
+        placeholder='Enter URL'
+        className='h-12 bg-[rgb(246,247,245)] px-2 py-1 border-2 border-gray-400 rounded-md focus:outline-2 outline-black focus:border-transparent focus:border-b-transparent focus:border-l-transparent focus:border-r-transparent'
+        type='url'
+      />
     </div>
   )
 }
