@@ -40,7 +40,6 @@ const SelectURL = () => {
 
   const arr = []
   const checkURL = () => {
-    console.log(isUrl(inputValues[0].url));
     inputValues.map(index => {
       const b = isUrl(index.url)
       arr.push(b)
