@@ -1,12 +1,15 @@
 'use client'
+
 import React, { useState, useEffect } from 'react'
 import LinkInput from '@/components/LinkInput'
 import './page.css'
 import isUrl from 'is-url'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const SelectURL = () => {
   const [user, setUser] = useState('');
-  const [inputValues, setInputValues] = useState([{ label: '', url: '' }]); // <-- track label & url
+  const [inputValues, setInputValues] = useState([{ label: '', url: '' }]);
   const [showError, setShowError] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
 
@@ -38,20 +41,33 @@ const SelectURL = () => {
     setInputValues(updatedInputs);
   };
 
-  const arr = []
-  const checkURL = () => {
-    inputValues.map(index => {
-      const b = isUrl(index.url)
-      arr.push(b)
-    });
-    if (arr.includes(false)) {
-      const falseIndexes = arr.reduce((acc, val, index) => {
-        if (!val) acc.push(index+1);
-        return acc;
-      }, []);
-      arr.length = 0
-      alert(`Link ${falseIndexes} are not valid URLs`);    }
+let data = {}
+
+const checkURL = () => {
+  const urlValidations = inputValues.map(input => isUrl(input.url));
+  console.log(inputValues)
+  if (urlValidations.includes(false)) {
+    const falseIndexes = urlValidations.reduce((acc, val, index) => {
+      if (!val) acc.push(index + 1);
+      return acc;
+    }, []);
+    //alert(`Link ${falseIndexes.join(', ')} ${falseIndexes.length > 1 ? 'are' : 'is'} not valid URL${falseIndexes.length > 1 ? 's' : ''}`);
+    toast.error(`Link ${falseIndexes.join(', ')} ${falseIndexes.length > 1 ? 'are' : 'is'} not valid URL${falseIndexes.length > 1 ? 's' : ''}`)
+    return;
+  }
+
+  data = {
+    User: user,
+    Links: inputValues.map(input => ({
+      Text: input.label.trim(),
+      URL: input.url.trim()
+    }))
   };
+
+  console.log('Formatted Data:', data);
+  toast.success('All links are valid!');
+};
+
 
   return (
     <div className='flex flex-col h-screen justify-center items-center'>
@@ -63,8 +79,8 @@ const SelectURL = () => {
         {inputValues.map((input, index) => (
           <div key={index} className='flex gap-2 items-center'>
             <LinkInput
-              label={input.label}
-              url={input.url}
+              label={input.label || ''}
+              url={input.url || ''}
               onLabelChange={(val) => handleLabelChange(index, val)}
               onUrlChange={(val) => handleUrlChange(index, val)}
             />
@@ -92,6 +108,8 @@ const SelectURL = () => {
       >
         Continue
       </button>
+
+      <ToastContainer />
     </div>
   );
 };
