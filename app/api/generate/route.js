@@ -1,5 +1,11 @@
+import clientPromise from "@/lib/mongodb";
+
 export async function POST(request) {
     const body = await request.json();
-    console.log("Received data:", body);
+    const client = await clientPromise;
+    const db = client.db("Linktree");
+    const collection = db.collection("users");
+    const result = await collection.insertOne({"Text":"booba"});
+    console.log(result);
     return Response.json({message:"hello"})
 }
