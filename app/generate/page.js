@@ -22,7 +22,7 @@ const Generate = () => {
         closeOnClick: true,
       })
     }
-    else if (value.length <=3){
+    else if (value.length <= 3) {
       toast.error('Name is too short', {
         position: "top-right",
         autoClose: 3000,
@@ -36,8 +36,33 @@ const Generate = () => {
       })
     }
     else {
-      localStorage.setItem('username', value)
-      router.push('/selectURL')
+      console.log(value)
+      const response = await fetch('/api/find', {
+        method: "POST",
+        headers: {
+          'Content-Type': "application/json",
+        },
+        body: JSON.stringify({ "data.User": value })
+      })
+      const result = await response.json()
+      if (result.found) {
+        toast.error('Name is already claimed', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          closeOnClick: true,
+        })
+        
+      }
+      else {
+        localStorage.setItem('username', value)
+        router.push('/selectURL')
+      }
     }
   }
 

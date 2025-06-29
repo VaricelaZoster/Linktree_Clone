@@ -6,12 +6,14 @@ import './page.css'
 import isUrl from 'is-url'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useRouter } from 'next/navigation'
 
 const SelectURL = () => {
   const [user, setUser] = useState('');
   const [inputValues, setInputValues] = useState([{ label: '', url: '' }]);
   const [showError, setShowError] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+  const router = useRouter()
 
   useEffect(() => {
     const username = localStorage.getItem("username") || '';
@@ -43,7 +45,7 @@ const SelectURL = () => {
 
 let data = {}
 
-const checkURL = () => {
+const checkURL = async () => {
   const urlValidations = inputValues.map(input => isUrl(input.url));
   console.log(inputValues)
   if (urlValidations.includes(false)) {
@@ -66,6 +68,17 @@ const checkURL = () => {
 
   console.log('Formatted Data:', data);
   toast.success('All links are valid!');
+
+  const response = await fetch('/api/add',{
+    method:"POST",
+    headers:{
+      'Content-Type':"application/json",
+    },
+    body: JSON.stringify({data})
+  })
+  const result = await response.json()
+  console.log(result)
+  router.push('/success')
 };
 
 
