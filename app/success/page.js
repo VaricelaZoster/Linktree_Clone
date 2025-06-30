@@ -5,10 +5,10 @@ import React from 'react'
 
 const Success = () => {
     const router = useRouter()
-
+    const user = localStorage.getItem("username")
 
     function push(){
-        router.push('/design')
+        router.push(`/design?user=${user}`)
     }
 
     setTimeout(

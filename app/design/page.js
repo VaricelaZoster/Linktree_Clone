@@ -1,8 +1,60 @@
-import React from 'react'
+'use client'
+
+import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 const Design = () => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const user = searchParams.get('user')
+
+  const [userExists, setUserExists] = useState(null)
+
+  useEffect(() => {
+    async function verify(user) {
+      if (!user) {
+        router.push('/errorUser')
+        return
+      }
+
+      try {
+        const response = await fetch('/api/find', {
+          method: "POST",
+          headers: {
+            'Content-Type': "application/json",
+          },
+          body: JSON.stringify({ "data.User": user })
+        })
+        const result = await response.json()
+        if (result.found) {
+          setUserExists(true)
+        } else {
+          router.push('/errorUser')
+        }
+      } catch (error) {
+        console.error('Error verifying user:', error)
+        router.push('/errorUser')
+      }
+    }
+
+    verify(user)
+  }, [user, router])
+
+  if (userExists === null) {
+    return <div className="flex items-center justify-center h-screen bg-white">
+      <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+      <span className="ml-4 text-black text-lg">Verifying user...</span>
+    </div>
+
+  }
+
   return (
-    <div>Hello</div>
+    <div className='flex justify-center items-center bg-amber-100 h-screen'>
+      <div className='flex flex-col justify-center items-center h-200 w-120'>
+        <div className='bg-amber-400 h-80 w-full rounded-t-3xl p-4'>{user}</div>
+        <div className='bg-amber-500 h-220 w-full rounded-b-3xl p-4'>Links</div>
+      </div>
+    </div>
   )
 }
 
