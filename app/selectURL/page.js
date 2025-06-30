@@ -59,7 +59,7 @@ const checkURL = async () => {
   }
 
   data = {
-    User: user,
+    User: user.toLowerCase(),
     Links: inputValues.map(input => ({
       Text: input.label.trim(),
       URL: input.url.trim()
