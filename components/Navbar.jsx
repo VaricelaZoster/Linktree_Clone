@@ -4,14 +4,13 @@ import { useState } from 'react';
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { ChevronUpIcon } from '@heroicons/react/24/solid'
+import { Menu, MenuHandler, MenuList, MenuItem } from '@material-tailwind/react';
 
 const Navbar = () => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [isHovered1, setIsHovered1] = useState(false);
     const [isHovered2, setIsHovered2] = useState(false);
 
-
-    const [isProductHovered, setIsProductHovered] = useState(false);
     return (
         <>
             <nav className=' flex justify-between z-10 min-w-[265px] bg-white w-[90vw] fixed top-13 right-[5vw] rounded-full p-6.5'>
@@ -19,15 +18,25 @@ const Navbar = () => {
                     <img className='h-10 hidden sm:flex' loading="eager" src="https://cdn.prod.website-files.com/666255f7f2126f4e8cec6f8f/66634daccb34e6d65a41c76d_download.svg" alt=""></img>
                     <img className='h-10 sm:hidden flex' loading="eager" src="https://cdn.prod.website-files.com/666255f7f2126f4e8cec6f8f/666b48ad59add9f2777bb76f_download-2.svg" alt=""></img>
                     <ul className='hidden bg lg:flex gap-4'>
-                        <div className='relative inline-block'>
-                            <li className='cursor-pointer hover:bg-[rgb(233,233,233)] p-1 rounded-md'><a>Products</a></li>
+                        <li className='flex items-center cursor-pointer p-1 rounded-md hover:bg-[rgb(233,233,233)]'>
+                            <Menu allowHover={true} offset={50} placement='bottom'>
+                                <MenuHandler className="flex items-center focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-md">
+                                    <div>Products</div>
+                                </MenuHandler>
+                                <MenuList className='flex z-20 w-200 ml-20 focus:outline-none rounded-md hover:bg-[rgb(233,233,233)]'>
+                                    <MenuItem className='flex justify-start rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200 '>
+                                        HI
+                                    </MenuItem>
+                                </MenuList>
+                            </Menu>
+                        </li>
 
-                        </div>
                         <li className='cursor-pointer hover:bg-[rgb(233,233,233)] p-1 rounded-md'><a>Templates</a></li>
                         <li className='cursor-pointer hover:bg-[rgb(233,233,233)] p-1 rounded-md'><a>Marketplace</a></li>
                         <li className='cursor-pointer hover:bg-[rgb(233,233,233)] p-1 rounded-md'><a>Discover</a></li>
                         <li className='cursor-pointer hover:bg-[rgb(233,233,233)] p-1 rounded-md'><a>Pricing</a></li>
                         <li className='cursor-pointer hover:bg-[rgb(233,233,233)] p-1 rounded-md'><a>Learn</a></li>
+
                     </ul>
                 </div>
                 <div className='flex gap-1 items-center'>
