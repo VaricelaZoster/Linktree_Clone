@@ -1,23 +1,27 @@
-'use client'
+'use client';
 
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
 
 const Success = () => {
-    const router = useRouter()
-    const user = localStorage.getItem("username")
+  const router = useRouter();
 
-    function push(){
-        router.push(`/design?user=${user}`)
+  useEffect(() => {
+    const user = localStorage.getItem('username');
+    if (user) {
+      const timeout = setTimeout(() => {
+        router.push(`/design?user=${user}`);
+      }, 2000);
+
+      return () => clearTimeout(timeout); // Clean up if component unmounts early
     }
+  }, [router]);
 
-    setTimeout(
-        push,2000
-    )
+  return (
+    <div className="flex items-center justify-center h-screen text-2xl text-green-600">
+      Success!
+    </div>
+  );
+};
 
-    return (
-        <div>Success</div>
-    )
-}
-
-export default Success
+export default Success;
