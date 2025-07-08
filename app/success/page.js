@@ -1,25 +1,32 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Success = () => {
   const router = useRouter();
+  const [countdown, setCountdown] = useState(4);
 
   useEffect(() => {
     const user = localStorage.getItem('username');
     if (user) {
-      const timeout = setTimeout(() => {
+      if (countdown === 0) {
         router.push(`/design?user=${user}`);
-      }, 2000);
-
-      return () => clearTimeout(timeout); // Clean up if component unmounts early
+      } else {
+        const timer = setTimeout(() => {
+          setCountdown((prev) => prev - 1);
+        }, 1000);
+        return () => clearTimeout(timer);
+      }
     }
-  }, [router]);
+  }, [countdown, router]);
 
   return (
-    <div className="flex items-center justify-center h-screen text-2xl text-green-600">
-      Success!
+    <div className="flex flex-col items-center justify-center h-screen text-2xl text-green-600">
+      <div>Success!</div>
+      <div className="mt-4 text-xl text-gray-700">
+        Redirecting in {countdown}...
+      </div>
     </div>
   );
 };
